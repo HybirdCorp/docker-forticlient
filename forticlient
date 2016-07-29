@@ -18,6 +18,9 @@ expect -exact "Would you like to connect to this server? (Y/N)" {
 # Expect tunnel to actually start
 expect {
   "STATUS::Tunnel running" {
+    # Wait for client to exit
+    set timeout -1
+    expect eof
   }
   timeout {
     send_user -- "Failed to bring tunnel up after 10s\n"
@@ -25,7 +28,4 @@ expect {
   }
 }
 
-# Wait for client to exit
-set timeout -1
-expect eof
 
