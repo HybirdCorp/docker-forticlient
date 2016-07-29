@@ -1,0 +1,31 @@
+#!/usr/bin/expect -f
+
+set timeout 5
+
+spawn "/usr/share/forticlient/opt/forticlient-sslvpn/64bit/forticlientsslvpn_cli" --server $env(VPNADDR) --vpnuser $env(VPNUSER) --keepalive
+
+# Send command
+expect -exact "Password for VPN:"
+send -- "$env(VPNPASS)\n"
+
+expect -exact "STATUS::Connecting..."
+
+# In case of invalid certificate
+expect -exact "Would you like to connect to this server? (Y/N)" {
+  send -- "Y\n"
+}
+
+# Expect tunnel to actually start
+expect {
+  "STATUS::Tunnel running" {
+  }
+  timeout {
+    send_user -- "Failed to bring tunnel up after 10s\n"
+    exit 1
+  }
+}
+
+# Wait for client to exit
+set timeout -1
+expect eof
+
