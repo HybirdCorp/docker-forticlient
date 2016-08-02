@@ -8,5 +8,9 @@ fi
 eth0_net=$(ip a | grep eth0 | grep inet | awk '{print $2}')
 iptables -t nat -A POSTROUTING -s "$eth0_net" -j MASQUERADE
 
-/usr/bin/forticlient
-
+while [ true ]; do
+  echo "------------ VPN Starts ------------"
+  /usr/bin/forticlient
+  echo "------------ VPN exited ------------"
+  sleep 10
+done
