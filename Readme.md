@@ -6,9 +6,9 @@ Connect to a FortiNet VPNs through docker
 
 The container uses the forticlientsslvpn_cli linux binary to manage ppp interface
 
-
 All of the container traffic is routed through the VPN, so you can in turn route host traffic through the container to access remote subnets.
 
+### Linux
 
 ```bash
 # Create a docker network, to be able to control addresses
@@ -23,12 +23,38 @@ docker run -it --rm \
   -e VPNPASS=secret \
   auchandirect/forticlient
 
-# Add route for you remote subnet (ex. 10.0.8.0/24)
-ip route add 10.0.8.0/24 via 172.20.0.2
+# Add route for you remote subnet (ex. 10.201.0.0/16)
+ip route add 10.201.0.0/16 via 172.20.0.2
 
 # Access remote host from the subnet
-ssh 10.0.8.1
+ssh 10.201.8.1
 ```
+
+### OSX
+
+Docker Beta's kernel lasks ppp interface support, so you'll need to use a docker-machine VM
+
+```bash
+# Create a docker-machine and configure shell to use it
+docker-machine create fortinet --driver virtualbox
+eval $(docker-machine env fortinet)
+
+# Start the priviledged docker container on its host network
+docker run -it --rm \
+  --privileged --net host \
+  -e VPNADDR=host:port \
+  -e VPNUSER=me@domain \
+  -e VPNPASS=secret \
+  auchandirect/forticlient
+
+# Add route for you remote subnet (ex. 10.201.0.0/16)
+sudo route add -net 10.201.0.0/16 $(docker-machine ip fortinet)
+
+# Access remote host from the subnet
+ssh 10.201.8.1
+```
+
+## Misc
 
 If you don't want to use a docker network, you can find out the container ip once it is started with:
 ```bash
