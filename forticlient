@@ -24,12 +24,14 @@ expect {
   }
 }
 
-# Expect tunnel to stop
-expect -timeout -1 {
-  "STATUS::Stopping tunnel" {
+# Expect tunnel to stop but not exit
+set timeout -1
+expect {
+  "STATUS::Tunnel closed" {
     exit 1
   }
   eof {
-    exit 0
+    exit
   }
 }
+
