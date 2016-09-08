@@ -1,6 +1,6 @@
 #!/usr/bin/expect -f
 
-set timeout 5
+set timeout $env(VPNTIMEOUT)
 
 spawn "/usr/share/forticlient/opt/forticlient-sslvpn/64bit/forticlientsslvpn_cli" --server $env(VPNADDR) --vpnuser $env(VPNUSER) --keepalive
 
@@ -19,7 +19,7 @@ expect -exact "Would you like to connect to this server? (Y/N)" {
 expect {
   "STATUS::Tunnel running" {
   } timeout {
-    send_user -- "Failed to bring tunnel up after 10s\n"
+    send_user -- "Failed to bring tunnel up after $env(VPNTIMEOUT)s\n"
     exit 1
   }
 }
@@ -34,4 +34,3 @@ expect {
     exit
   }
 }
-
