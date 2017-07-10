@@ -32,7 +32,8 @@ ssh 10.201.8.1
 
 ### OSX
 
-Docker Beta's kernel lasks ppp interface support, so you'll need to use a docker-machine VM
+UPDATE: 2017/06/10
+Docker's microkernel still lassk ppp interface support, so you'll need to use a docker-machine VM.
 
 ```bash
 # Create a docker-machine and configure shell to use it
