@@ -34,7 +34,7 @@ ssh 10.201.8.1
 
 ```
 UPDATE: 2017/06/10
-Docker's microkernel still lassk ppp interface support, so you'll need to use a docker-machine VM.
+Docker's microkernel still lacks ppp interface support, so you'll need to use a docker-machine VM.
 ```
 
 ```bash
