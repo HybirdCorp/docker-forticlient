@@ -13,13 +13,14 @@ RUN apt-get update && \
   iproute2 \
   ipppd \
   iptables \
+  wget \
   && apt-get clean -q && apt-get autoremove --purge \
   && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /root
 
 # Install fortivpn client unofficial .deb
-COPY forticlient-sslvpn_amd64.deb .
+RUN wget 'https://hadler.me/files/forticlient-sslvpn_4.4.2329-1_amd64.deb' -O forticlient-sslvpn_amd64.deb
 RUN dpkg -x forticlient-sslvpn_amd64.deb /usr/share/forticlient && rm forticlient-sslvpn_amd64.deb
 
 # Run setup
