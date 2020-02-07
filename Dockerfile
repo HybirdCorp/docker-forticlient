@@ -2,6 +2,9 @@ FROM ubuntu:18.04
 
 ARG DEBIAN_FRONTEND=noninteractive
 
+ARG FORTICLIENT_VERSION=4.4.2329-1
+ENV FORTICLIENT_VERSION=$FORTICLIENT_VERSION
+
 RUN set -x \
     && apt-get update \
     && apt-get install -y -o APT::Install-Recommends=false -o APT::Install-Suggests=false \
@@ -13,7 +16,7 @@ RUN set -x \
         ipppd \
         iptables \
     # Install fortivpn client unofficial .deb
-    && curl -sfo forticlient-sslvpn_amd64.deb "https://hadler.me/files/forticlient-sslvpn_4.4.2329-1_amd64.deb" \
+    && curl -sfo forticlient-sslvpn_amd64.deb "https://hadler.me/files/forticlient-sslvpn_${FORTICLIENT_VERSION}_amd64.deb" \
     && dpkg -x forticlient-sslvpn_amd64.deb /usr/share/forticlient \
     && rm forticlient-sslvpn_amd64.deb \
     # Run setup
