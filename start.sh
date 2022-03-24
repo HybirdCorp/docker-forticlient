@@ -1,5 +1,7 @@
 #!/bin/sh
 
+mknod /dev/ppp c 108 0
+
 if [ -z "$VPNADDR" -o -z "$VPNUSER" -o -z "$VPNPASS" ]; then
   echo "Variables VPNADDR, VPNUSER and VPNPASS must be set."; exit;
 fi
